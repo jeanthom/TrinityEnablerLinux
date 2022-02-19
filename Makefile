@@ -1,33 +1,26 @@
 # project name (generate executable with this name)
-TARGET   = trinityenabler
+TARGET := src/trinityenabler
 
 # compiling flags here
-CFLAGS   = -std=c99 -Wall -I. -pedantic -Werror -O3
+CFLAGS := -std=c99 -Wall -I. -pedantic -Werror -O3 $(shell pkg-config --cflags libusb-1.0)
 
 # linking flags here
-LFLAGS   = -Wall -I. -lm -framework IOKit -framework Foundation
+LFLAGS := -Wall -I. $(shell pkg-config --libs libusb-1.0)
 
-# change these to proper directories where each file should be
-SRCDIR   = src
-OBJDIR   = obj
-BINDIR   = bin
-
-SOURCES  := $(wildcard $(SRCDIR)/*.c)
-INCLUDES := $(wildcard $(SRCDIR)/*.h)
-OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
-rm       = rm -f
+OBJS := src/main.o
+rm := rm -f
 
 
-$(BINDIR)/$(TARGET): $(OBJECTS)
-	$(CC) -o $@ $(LFLAGS) $(OBJECTS)
+$(TARGET): $(OBJS)
+	$(CC) $(LFLAGS) -o $@ $(OBJS)
 
-$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
-	$(rm) $(OBJECTS)
+	$(rm) $(OBJS)
 
 .PHONY: remove
 remove: clean
-	$(rm) $(BINDIR)/$(TARGET)
+	$(rm) $(TARGET)

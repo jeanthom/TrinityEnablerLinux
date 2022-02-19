@@ -1,5 +1,2 @@
-bin/*
-obj/*
-
-!bin/.gitkeep
-!obj/.gitkeep
+src/*.o
+src/trinityenabler
