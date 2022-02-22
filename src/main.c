@@ -112,7 +112,7 @@ int xdfpSetMem(libusb_device_handle *dev_handle, const uint8_t *buf, uint16_t le
     kTimeout
   );
   if (ret < 0) {
-    fprintf(stderr, "%s: libusb_control_transfer error %s", __func__, libusb_error_name(ret));
+    fprintf(stderr, "%s: libusb_control_transfer error %s\n", __func__, libusb_error_name(ret));
   }
 
   return 0;
