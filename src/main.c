@@ -101,7 +101,7 @@ uint8_t disableplugin_value= 0xba;
 int xdfpSetMem(libusb_device_handle *dev_handle, const uint8_t *buf, uint16_t length, uint16_t xdfpAddr) {
   const unsigned int kTimeout = 100;
 
-  return libusb_control_transfer(
+  int ret = libusb_control_transfer(
     dev_handle,
     LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
     kMicronasSetMemReq,
@@ -110,7 +110,12 @@ int xdfpSetMem(libusb_device_handle *dev_handle, const uint8_t *buf, uint16_t le
     (unsigned char*)buf,
     length,
     kTimeout
-  ) > 0;
+  );
+  if (ret < 0) {
+    fprintf(stderr, "%s: libusb_control_transfer error %s", __func__, libusb_error_name(ret));
+  }
+
+  return ret < 0;
 }
 
 int xdfpWrite(libusb_device_handle *dev_handle, uint16_t xdfpAddr, int32_t value) {
