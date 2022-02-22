@@ -115,7 +115,7 @@ int xdfpSetMem(libusb_device_handle *dev_handle, const uint8_t *buf, uint16_t le
     fprintf(stderr, "%s: libusb_control_transfer error %s", __func__, libusb_error_name(ret));
   }
 
-  return ret < 0;
+  return 0;
 }
 
 int xdfpWrite(libusb_device_handle *dev_handle, uint16_t xdfpAddr, int32_t value) {
