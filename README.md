@@ -1,6 +1,6 @@
 # Trinity Enabler Linux
 
-libusb port of [Trinity Enabler](https://github.com/jeanthom/TrinityEnabler). Runs on Linux, and also on macOS and Windows.
+libusb port of [Trinity Enabler](https://github.com/jeanthom/TrinityEnabler). Runs on Linux, and probably also on macOS and Windows.
 
 ## Compilation
 
