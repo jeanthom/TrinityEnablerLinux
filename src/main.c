@@ -215,12 +215,13 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  if (libusb_set_auto_detach_kernel_driver(dev_handle, 1) != LIBUSB_SUCCESS) {
+  int res = libusb_set_auto_detach_kernel_driver(dev_handle, 1);
+  if (res != LIBUSB_SUCCESS && res != LIBUSB_ERROR_NOT_SUPPORTED) {
     fprintf(stderr, "Failed to libusb_set_auto_detach_kernel_driver\n");
     goto usb_cleanup;
   }
 
-  int res = libusb_claim_interface(dev_handle, 0);
+  res = libusb_claim_interface(dev_handle, 0);
   if (res) {
     fprintf(stderr, "Failed to claim USB interface (libusb error: %s)\n", libusb_error_name(res));
     goto usb_cleanup;
@@ -243,8 +244,8 @@ int main(int argc, char *argv[]) {
     goto usb_cleanup;
   }
 
-  libusb_close(dev_handle);
   libusb_release_interface(dev_handle, 0);
+  libusb_close(dev_handle);
   libusb_exit(usb_ctx);
 
   return EXIT_SUCCESS;
